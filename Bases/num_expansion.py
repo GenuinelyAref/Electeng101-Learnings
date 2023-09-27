@@ -1,4 +1,4 @@
-# program to expand out number in terms of its base
+# program to expand out a number in terms of its base
 
 # function to retrieve subscript character unicode equivalent for any digit (0-9)
 def special_num(var_num, var_type, var_sign):
@@ -96,8 +96,79 @@ def full_expansion(var_num, var_base):
     return expanded_text
 
 
-number = 92.374
-base = 10
-w = write_number(number, base)
-f = full_expansion(number, base)
-print("{} = {}".format(w, f))
+# get type of input (decimal or integer):
+def get_type():
+    valid_input = False
+    # repeat until type input is valid
+    while not valid_input:
+        # get input from user
+        var_num_type = input("Is your number a (1) decimal or an (2) integer? Enter the number here: ")
+        # check if input is 1
+        if var_num_type.strip(" ") == "1":
+            return "decimal"
+        # check if input is 2
+        elif var_num_type.strip(" ") == "2":
+            return "integer"
+        # otherwise input is invalid
+        else:
+            # show error message
+            print("\nPlease enter 1 or 2.\n")
+            # repeat cycle
+            valid_input = False
+
+
+# get base value from user
+def get_base():
+    base_valid = False
+    # repeat until base input is valid
+    while not base_valid:
+        # get input from user
+        var_base = input("\nWhat base is your number in? Enter a number (>1) here: ")
+        try:
+            # see if input is a number
+            x = int(var_base)
+            # see if input is an integer bigger than 1
+            condition_met = (var_base > 1) and (float(var_base) % 1 == 0)
+            if condition_met:
+                return var_base
+            else:
+                # print error message
+                print("That's not a valid base, try again.\n")
+                base_valid = False
+        # if input is text / other non-integer
+        except ValueError:
+            # print error message
+            print("That's not a valid base, try again.\n")
+            base_valid = False
+
+
+# MAIN ROUTINE
+
+# welcome message
+print("Full number expansion in terms of base\n\n")
+
+# get type of input (decimal or integer number)
+num_type = get_type()
+
+# get number
+number = input("\nEnter your number: ")
+
+# assign suitable type to number
+if num_type == "decimal":
+    number = float(number)
+else:
+    number = int(number)
+
+# get base value
+base = get_base()
+
+# number with base
+number_label_base = write_number(number, base)
+# get full expansion of number
+expansion = full_expansion(number, base)
+# combine both to create text output
+output_text = "{} = {}".format(number_label_base, expansion)
+
+# print output text
+print("\nThe full expansion is:")
+print(output_text)
