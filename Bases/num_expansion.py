@@ -25,4 +25,35 @@ def expanded_term(var_digit, var_base, var_place_value):
     return expanded_term
 
 
-print(expanded_term(3, 10, 2))
+def full_expansion(var_num, var_base):
+    expanded_text = ""
+    str_var_num = list(str(var_num))
+    try:
+        dot_index = str_var_num.index(".")
+        str_var_num.pop(dot_index)
+    except ValueError:
+        dot_index = -1
+        pass
+    var_digits = len(str_var_num)
+    if dot_index == -1:
+        for digit in range(var_digits-1, -1, -1):
+            var_digit = str_var_num[var_digits - digit - 1]
+            if digit != 0:
+                expanded_text += "{} + ".format(expanded_term(var_digit, var_base, digit))
+            else:
+                expanded_text += "{}".format(expanded_term(var_digit, var_base, digit))
+    else:
+        for digit in range(var_digits, -1, -1):
+            if digit > dot_index:
+                var_placeholder = digit - dot_index - 1
+                var_digit = str_var_num[var_placeholder]
+                expanded_text += "{} + ".format(expanded_term(var_digit, var_base, var_placeholder))
+            elif digit < dot_index:
+                var_placeholder = digit - dot_index
+                var_digit = str_var_num[var_placeholder]
+                expanded_text += "{} + ".format(expanded_term(var_digit, var_base, var_placeholder))
+    return expanded_text
+
+
+f = full_expansion(321, 10)
+print(f)
