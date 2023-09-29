@@ -80,9 +80,9 @@ def split_decimals(var_number):
     # find location of decimal point
     var_point_index = list(str(var_number)).index(".")
     # find integer part of number
-    var_integer_part = int(str(list(str(var_number))[0:var_point_index]))
+    var_integer_part = int(str(var_number)[0:var_point_index])
     # find fractional part of number
-    var_fractional_part = int(str(list(str(var_number))[var_point_index + 1:]))
+    var_fractional_part = int(str(var_number)[var_point_index + 1:])
     # return both parts separately
     return [var_integer_part, var_fractional_part]
 
