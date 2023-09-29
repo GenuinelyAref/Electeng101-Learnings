@@ -128,7 +128,7 @@ def get_base():
             # see if input is a number
             x = int(var_base)
             # see if input is an integer bigger than 1
-            condition_met = (var_base > 1) and (float(var_base) % 1 == 0)
+            condition_met = (x > 1) and (float(x) % 1 == 0)
             if condition_met:
                 return var_base
             else:
