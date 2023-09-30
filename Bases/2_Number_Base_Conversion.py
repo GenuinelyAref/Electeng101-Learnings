@@ -63,7 +63,7 @@ def get_base():
             # see if input is an integer bigger than 1
             condition_met = (x > 1) and (float(x) % 1 == 0)
             if condition_met:
-                return var_base
+                return x
             else:
                 # print error message
                 print("That's not a valid base, try again.\n")
@@ -74,6 +74,20 @@ def get_base():
             print("That's not a valid base, try again.\n")
             base_valid = False
 
+
+# convert integer part into new base
+def convert_integer(var_int_part, var_new_base):
+    var_converted_num = ""
+    while var_int_part != 0:
+        # calculate digits starting from least significant digit
+        var_remainder = var_int_part % var_new_base
+        var_int_part = var_int_part // var_new_base
+        var_converted_num = "{}{}".format(var_remainder, var_converted_num)
+    return int(var_converted_num)
+
+
+# convert fractional part into new base
+#def convert_fractional():
 
 # split decimal numbers (with decimal points) into integer and fractional parts
 def split_decimals(var_number):
@@ -111,3 +125,5 @@ else:
 
 # get base value
 new_base = get_base()
+
+print(convert_integer(integer_part, new_base))
