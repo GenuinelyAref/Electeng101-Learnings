@@ -1,4 +1,6 @@
 # program to convert a number from decimal base to a different base
+import math
+
 
 # function to retrieve subscript character unicode equivalent for any digit (0-9)
 def special_num(var_num, var_type, var_sign):
@@ -25,7 +27,9 @@ def special_num(var_num, var_type, var_sign):
 
 # write number with base in subscript
 def write_number(var_num, var_base):
+    # add subscript value to number
     var_return_num = "{}{}".format(var_num, special_num(var_base, "sub", "+"))
+    # return text value
     return var_return_num
 
 
@@ -87,7 +91,18 @@ def convert_integer(var_int_part, var_new_base):
 
 
 # convert fractional part into new base
-#def convert_fractional():
+def convert_fractional(var_fractional_part, var_new_base):
+    var_fractional_part = float("0.{}".format(str(var_fractional_part)))
+    # var_fractional_part = 0.625
+    var_converted_num = ""
+    while var_fractional_part != 0:
+        # calculate digits starting from least significant digit
+        var_int_part = math.floor(var_fractional_part * var_new_base)
+        # var_int_part = 1
+        var_fractional_part = (var_fractional_part * var_new_base) - var_int_part
+        var_converted_num = "{}{}".format(var_converted_num, var_int_part)
+    return int(var_converted_num)
+
 
 # split decimal numbers (with decimal points) into integer and fractional parts
 def split_decimals(var_number):
@@ -112,18 +127,38 @@ num_type = get_type()
 # get number
 number = input("\nEnter your number: ")
 
-# assign suitable type to number
-if num_type == "decimal":
-    number = float(number)
-    number_split_raw = split_decimals(number)
-    integer_part = number_split_raw[0]
-    fractional_part = number_split_raw[1]
-    print(integer_part)
-    print(fractional_part)
-else:
-    number = int(number)
-
 # get base value
 new_base = get_base()
 
-print(convert_integer(integer_part, new_base))
+# assign suitable type to number
+if num_type == "decimal":
+    # convert number type to a float (decimal)
+    number = float(number)
+    # split float into integer and fractional parts
+    number_split_raw = split_decimals(number)
+    # assign each part to a variable
+    integer_part = number_split_raw[0]
+    fractional_part = number_split_raw[1]
+
+    # convert each part into the new base, separately
+    new_integer_part = convert_integer(integer_part, new_base)
+    new_fractional_part = convert_fractional(fractional_part, new_base)
+
+    # concatenate the converted number and store convert number as a string
+    converted_number = "{}.{}".format(str(new_integer_part), str(new_fractional_part))
+
+else:
+    # convert number type to an integer
+    number = int(number)
+    # convert number into the new base
+    new_integer_part = convert_integer(number, new_base)
+    # store convert number as a string
+    converted_number = "{}".format(str(new_integer_part))
+
+# attach base in subscript to each version of number
+original_number_print = write_number(number, "10")  # input base 10
+converted_number_print = write_number(converted_number, new_base)
+# add newline
+print()
+# print number in both the old base and the new base
+print("{} = {}".format(original_number_print, converted_number_print))
