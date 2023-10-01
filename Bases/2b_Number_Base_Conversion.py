@@ -69,6 +69,7 @@ def full_expansion(var_num, var_base):
             else:
                 # expand the digit out using base and place-value
                 expanded_text += "{}".format(expanded_term(var_digit, var_base, var_placeholder, "+"))
+            # add each number (accounting for its place value) to list
             expanded_terms.append(int(var_digit) * (int(var_base) ** var_placeholder))
 
     # if number has a decimal point
@@ -94,8 +95,9 @@ def full_expansion(var_num, var_base):
             else:
                 # expand the digit out using base and place-value
                 expanded_text += "{}".format(expanded_term(var_digit, var_base, var_placeholder_adjusted, var_sign))
+            # add each number (accounting for its place value) to list
             expanded_terms.append(int(var_digit) * (int(var_base) ** var_placeholder))
-    # return expanded form of number
+    # return expanded form of number & all the expanded terms
     return [expanded_text, expanded_terms]
 
 
@@ -145,13 +147,20 @@ def get_base():
             base_valid = False
 
 
+# write out the second expansion step (sum of all expanded terms)
 def expansion_step_two(var_expanded_values):
+    # define used variable
     var_expanded_text = ""
+    # repeat for every expanded term
     for var_num in range(0, len(var_expanded_values)):
+        # if it's not the last expanded term
         if var_num != (len(var_expanded_values) - 1):
+            # add a plus at the end
             var_expanded_text += "{} + ".format(var_expanded_values[var_num])
+        # otherwise, no plus sign at the end
         else:
             var_expanded_text += "{}".format(var_expanded_values[var_num])
+    # return sum of all expanded terms as a text output
     return var_expanded_text
 
 
@@ -181,12 +190,15 @@ number_label_base = write_number(number, base)
 expansion_raw = full_expansion(number, base)
 # calculate spacing for left-aligned printing
 spacer = " "*len(number_label_base)
-# combine both to create text output
+
+# write input number & base and full expansion to create text output
 output_line_one = "{} = {}".format(number_label_base, expansion_raw[0])
+# write sum of expanded terms to text output
 output_line_two = "{} = {}".format(spacer, expansion_step_two(expansion_raw[1]))
+# write actual sum of expanded terms (single term) to text output
 output_line_three = "{} = {}".format(spacer, sum(expansion_raw[1]))
 
-# print output text
+# print text output
 print("\nThe full expansion is:")
 print(output_line_one)
 print(output_line_two)
